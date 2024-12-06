@@ -1,5 +1,7 @@
-package Model;
+package com.E_COM_App.E_COM_App.model;
 
+import com.E_COM_App.E_COM_App.model.Category;
+import com.E_COM_App.E_COM_App.model.Image;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +25,7 @@ public class Product {
     private BigDecimal price;
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
