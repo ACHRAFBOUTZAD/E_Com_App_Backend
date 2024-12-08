@@ -1,5 +1,6 @@
 package com.E_COM_App.E_COM_App.Service;
 
+import com.E_COM_App.E_COM_App.Exception.ProductNotFoundException;
 import com.E_COM_App.E_COM_App.Repository.CategoryRepo;
 import com.E_COM_App.E_COM_App.Repository.ImageRepo;
 import com.E_COM_App.E_COM_App.Repository.ProductRepo;
@@ -26,11 +27,14 @@ public class ProductService implements InterProductService{
 
     @Override
     public Product getProductsById(long productId) {
-        return null;
+        return productRepo.findById(productId).orElseThrow(()-> new ProductNotFoundException("Product not found"));
     }
 
     @Override
-    public void removeProduct(Product product) {
+    public void removeProduct(Long product_id) {
+        productRepo.findById(product_id)
+                        .ifPresentOrElse(productRepo::delete,
+                                () -> {throw new ProductNotFoundException("Product not found");});
 
     }
 
@@ -41,46 +45,59 @@ public class ProductService implements InterProductService{
 
     @Override
     public void deleteAllProducts() {
+        productRepo.deleteAll();
 
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return null;
+        return productRepo.findAll();
     }
 
     @Override
     public List<Product> getProductsByCategory(String category) {
-        return null;
+        return productRepo.findByCategoryName(category);
     }
 
     @Override
     public List<Product> getProductByBrand(String brand) {
-        return null;
+        return productRepo.findByBrand(brand);
     }
 
     @Override
     public List<Product> getProductsByCategoryandBrand(String category, String brand) {
-        return null;
+        return productRepo.findByCategoryNameAndBrand(category,brand);
     }
 
     @Override
-    public List<Product> getProductsByName(String name) {
-        return null;
+    public List<Product> getProductsByName(String productname) {
+        return productRepo.findByName(productname);
     }
 
     @Override
     public List<Product> getProductsByPrice(BigDecimal price) {
-        return null;
+        return productRepo.findByPrice(price);
     }
-
+    @Override
+    public List<Product> getProductsByHigherPrice(BigDecimal price) {
+        return productRepo.findByHigherPrice(price);
+    }
+    @Override
+    public List<Product> getProductsByLowerPrice(BigDecimal price) {
+        return productRepo.findByLowerPrice(price);
+    }
+    @Override
+    public List<Product> getProductsByBetweenPrice(BigDecimal minprice,BigDecimal maxprice) {
+        return productRepo.findByBetweenPrice(minprice,maxprice);
+    }
     @Override
     public List<Product> getProductsByBrandAndName(String brand, String name) {
-        return null;
+        return productRepo.findByBrandAndName(brand ,name);
     }
+
 
     @Override
     public long countProductsByBrandAndName(String brand, String name) {
-        return 0;
+        return productRepo.countByBrandAndName(brand , name);
     }
 }

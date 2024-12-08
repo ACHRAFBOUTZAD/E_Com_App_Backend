@@ -8,7 +8,7 @@ import java.util.List;
 public interface InterProductService {
     Product addProduct(Product product);
     Product getProductsById (long productId);
-    void removeProduct(Product product);
+    void removeProduct(Long product_id);
     void updateProduct(Product product,long product_id);
     void deleteAllProducts();
     List<Product> getAllProducts();
@@ -17,7 +17,11 @@ public interface InterProductService {
     List<Product> getProductsByCategoryandBrand(String category,String brand);
     List<Product> getProductsByName (String name);
     List<Product> getProductsByPrice ( BigDecimal price);
-    List<Product> getProductsByBrandAndName (String brand ,String name);
+
+    List<Product> getProductsByHigherPrice(BigDecimal price);
+    List<Product> getProductsByLowerPrice(BigDecimal price);
+    List<Product> getProductsByBetweenPrice(BigDecimal minprice,BigDecimal maxprice);
+    List<Product> getProductsByBrandAndName (String brand , String name);
     long countProductsByBrandAndName(String brand,String name);
 
 
