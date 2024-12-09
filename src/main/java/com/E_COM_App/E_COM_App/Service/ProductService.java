@@ -70,7 +70,8 @@ public class ProductService implements InterProductService{
 
     @Override
     public Product getProductsById(long productId) {
-        return productRepo.findById(productId).orElseThrow(()-> new ProductNotFoundException("Product not found"));
+        return productRepo.findById(productId)
+                .orElseThrow(()-> new ProductNotFoundException("Product not found"));
     }
 
     @Override
