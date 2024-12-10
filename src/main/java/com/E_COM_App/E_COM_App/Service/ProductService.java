@@ -34,6 +34,7 @@ public class ProductService implements InterProductService{
         return productRepo.save(createProduct(product,category));
     }
     private Product createProduct(AddProductRequest product , Category category){
+        //crete a new product
         return new Product(
                 product.getName(),
                 product.getBrand(),
@@ -68,6 +69,7 @@ public class ProductService implements InterProductService{
 
     @Override
     public Product getProductsById(long productId) {
+        //check if the product is exist already if not return not found
         return productRepo.findById(productId)
                 .orElseThrow(()-> new ProductNotFoundException("Product not found"));
     }
