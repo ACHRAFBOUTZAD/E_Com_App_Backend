@@ -20,8 +20,6 @@ public class ProductService implements InterProductService{
     @Autowired
     ProductRepo productRepo;
     @Autowired
-    ImageRepo imageRepo;
-    @Autowired
     CategoryRepo categoryRepo;
 
     @Override
