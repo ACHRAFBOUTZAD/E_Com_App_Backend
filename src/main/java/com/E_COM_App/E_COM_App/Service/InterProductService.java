@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface InterProductService {
-    Product addProduct(AddProductRequest product);
-    void removeProduct(Long product_id);
-    Product updateProduct(UpdateProductRequest product, long product_id);
+    Product addProduct(Product product);
+    void removeProductById(Long product_id);
+    Product updateProduct(Product product, long product_id);
     void deleteAllProducts();
     Product getProductsById (long productId);
     List<Product> getAllProducts();

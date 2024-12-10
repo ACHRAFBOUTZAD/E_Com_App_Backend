@@ -23,17 +23,17 @@ public class ProductService implements InterProductService{
     CategoryRepo categoryRepo;
 
     @Override
-    public Product addProduct(AddProductRequest product) {
+    public Product addProduct(Product newproduct) {
         //check if the category exist in the database , if no create a new category and give it to the product ,if yes create the product with it
-        Category category = Optional.ofNullable(categoryRepo.findByName(product.getCategory().getName()))
+        Category category = Optional.ofNullable(categoryRepo.findByName(newproduct.getCategory().getName()))
                 .orElseGet( ()->{
-            Category newcategory = new Category(product.getCategory().getName());
+            Category newcategory = new Category(newproduct.getCategory().getName());
             return categoryRepo.save(newcategory);
         } );
-        product.setCategory( category);
-        return productRepo.save(createProduct(product,category));
+        newproduct.setCategory( category);
+        return productRepo.save(createProduct(newproduct,category));
     }
-    private Product createProduct(AddProductRequest product , Category category){
+    private Product createProduct(Product product , Category category){
         //crete a new product
         return new Product(
                 product.getName(),
@@ -45,7 +45,7 @@ public class ProductService implements InterProductService{
     }
 
     @Override
-    public Product updateProduct(UpdateProductRequest product, long product_id) {
+    public Product updateProduct(Product product, long product_id) {
         // if the product exists then just update else throw exception
         return productRepo.findById(product_id)
                 .map(existingProduct -> updateExistionProduct(existingProduct, product))
@@ -53,7 +53,7 @@ public class ProductService implements InterProductService{
                 .orElseThrow(() -> new ProductNotFoundException("Product not found"));
     }
 
-    private Product updateExistionProduct(Product existingProduct , UpdateProductRequest updateProduct ){
+    private Product updateExistionProduct(Product existingProduct , Product updateProduct ){
         //change the old product with the new product
         existingProduct.setName(updateProduct.getName());
         existingProduct.setBrand(updateProduct.getBrand());
@@ -75,7 +75,7 @@ public class ProductService implements InterProductService{
     }
 
     @Override
-    public void removeProduct(Long product_id) {
+    public void removeProductById(Long product_id) {
         productRepo.findById(product_id)
                         .ifPresentOrElse(productRepo::delete,
                                 () -> {throw new ProductNotFoundException("Product not found");});
