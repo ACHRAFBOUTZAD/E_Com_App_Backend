@@ -23,7 +23,7 @@ public class ProductService implements InterProductService{
     CategoryRepo categoryRepo;
 
     @Override
-    public Product addProduct(Product newproduct) {
+    public Product addProduct(AddProductRequest newproduct) {
         //check if the category exist in the database , if no create a new category and give it to the product ,if yes create the product with it
         Category category = Optional.ofNullable(categoryRepo.findByName(newproduct.getCategory().getName()))
                 .orElseGet( ()->{
@@ -33,7 +33,7 @@ public class ProductService implements InterProductService{
         newproduct.setCategory( category);
         return productRepo.save(createProduct(newproduct,category));
     }
-    private Product createProduct(Product product , Category category){
+    private Product createProduct(AddProductRequest product , Category category){
         //crete a new product
         return new Product(
                 product.getName(),
@@ -45,7 +45,7 @@ public class ProductService implements InterProductService{
     }
 
     @Override
-    public Product updateProduct(Product product, long product_id) {
+    public Product updateProduct(UpdateProductRequest product, long product_id) {
         // if the product exists then just update else throw exception
         return productRepo.findById(product_id)
                 .map(existingProduct -> updateExistionProduct(existingProduct, product))
@@ -53,7 +53,7 @@ public class ProductService implements InterProductService{
                 .orElseThrow(() -> new ProductNotFoundException("Product not found"));
     }
 
-    private Product updateExistionProduct(Product existingProduct , Product updateProduct ){
+    private Product updateExistionProduct(Product existingProduct , UpdateProductRequest updateProduct ){
         //change the old product with the new product
         existingProduct.setName(updateProduct.getName());
         existingProduct.setBrand(updateProduct.getBrand());
